@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Geek Joke Generator</title>
+
+        <!-- Import dependencies -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+        <!-- Make it prettier -->
+        <style media="screen">
+
+            body {
+                margin: 0;
+                padding: 0;
+                background: #22242b;
+            }
+
+            h1, h2, h3, p {
+                color: white;
+            }
+
+            .inner-card {
+                background: #22242b;
+                border: 2px solid rgba(0, 0, 0, 0.25);
+                min-height: 250px;
+                width: 80%;
+            }
+
+            .fixed {
+                position: fixed;
+                width: 100vw;
+                padding: 1em;
+                bottom: 0;
+                background: #22242b;
+            }
+
+            @keyframes fadeBtn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeBox {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeCard {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            .container {
+                background: #292b34;
+                margin-top: 2em;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="container" style="animation: fadeBox 2s;">
+            <!-- The Joke -->
+            <div class="row">
+                <div class="col-xs-8 col-xs-offset-2">
+                    <h2>Geek Joke Generator</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-8 col-xs-offset-2">
+                    <div class="card" style="animation: fadeCard 4s;">
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p id="joke"></p>
+                                <footer id="author" class="blockquote-footer"></footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--button-->
+        <div class="fixed text-center">
+            <button id="generator" class="btn btn-primary btn-lg btn-block" type="button" name="button" style="animation: fadeBtn 2s;">
+                Generate!
+            </button>
+        </div>
+
+    </body>
+</html>
+<script type="text/javascript">
+
+    // Get randomly generated joke
+    function getJoke() {
+        $.get("https://geek-jokes.sameerkumar.website/api", function(joke, status) {
+            // console.log(joke); // NOTE this returns a string
+            $("#joke").html(joke);
+        });
+    }
+
+    // Get randomly generated Author name
+    function getAuthor() {
+        $.get("https://uinames.com/api/?amount=25", function(names, status) {
+            // console.log(names); // NOTE names is returned as array of objects, so I use the first name and surname pair
+            var name = names[0].name;
+            var surname = names[0].surname;
+            $("#author").html(name + ' ' + surname);
+        });
+    }
+
+    // Generate results on button click
+    $(function() {
+        $('#generator').click(function() {
+            getJoke();
+            getAuthor();
+        });
+    });
+
+</script>
